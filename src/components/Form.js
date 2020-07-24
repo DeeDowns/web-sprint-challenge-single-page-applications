@@ -18,7 +18,7 @@ function Form(props) {
 
     return (
         <form onSubmit={onSubmit}>
-            <h2>FormTest</h2>
+            <h2>Order Your Pizza</h2>
             <div className='form-group name'>
                 <label>Name
                     <input
@@ -26,6 +26,7 @@ function Form(props) {
                         name='name'
                         value={formValues.name}
                         onChange={formChanges}
+                        placeholder='Enter Your Name'
                     />
                 </label>
             </div>
@@ -37,16 +38,16 @@ function Form(props) {
                         value={formValues.pizzaSize}
                         onChange={formChanges}
                     >
-                        <option>--Select an option--</option>
-                        <option>Small</option>
-                        <option>Medium</option>
-                        <option>Large</option>
+                        <option value=''>--Select an option--</option>
+                        <option  value='small'>Small</option>
+                        <option  value='medium'>Medium</option>
+                        <option  value='large'>Large</option>
                     </select>
                 </label>
             </div>
 
             <div className='form-group checkboxes'>
-                <h3>Toppings?</h3>
+                <h3>Any Toppings?</h3>
                 <label>Pepperoni
                     <input
                         type="checkbox"
@@ -86,20 +87,22 @@ function Form(props) {
             </div>
 
             <div className='form-group special-instructions'>
-                <label>Special Instructions
+                <label>Any Special Instructions?
                     <input
                         type="text"
                         name='specialInstructions'
                         value={formValues.specialInstructions}
                         onChange={formChanges}
+                        placeholder='Enter Special Instructions'
                     />
                 </label>
             </div>
             <div className='button-container'>
-                <button disabled={disabled}>Submit</button>
+                <button disabled={disabled}>Order</button>
             </div>
             <div className='form-errors'>
                  <div>{formErrors.name}</div>
+                 <div>{formErrors.pizzaSize}</div>
             </div> 
         </form>
     )

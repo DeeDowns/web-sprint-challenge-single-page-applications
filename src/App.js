@@ -96,12 +96,11 @@ function App() {
         <h1>Lambda Eats</h1>
         <nav>
           <Link to='/'>Home</Link>
-          <Link to='/form'>Form</Link>
         </nav>
       </header>
 
       <Switch>
-        <Route path='/form'>
+        <Route path='/pizza'>
           <Form 
             formValues={formValues}
             formChanges={formChanges}
