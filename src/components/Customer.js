@@ -9,14 +9,16 @@ function Customer(props) {
 
     return (
         <div>
-            <h1>Your Oder:</h1>
-            <h3>{customerInfo.name}</h3>
-            <p>{customerInfo.pizzaSize}</p>
-            <p>{customerInfo.pepperoni === true ? 'Pepperoni' : null}</p>
-            <p>{customerInfo.sausage === true ? 'Sausage' : null}</p>
-            <p>{customerInfo.anchovies === true ? 'Anchovies' : null}</p>
-            <p>{customerInfo.extraCheese === true ? 'Extra Cheese' : null}</p>
-            <p>{customerInfo.specialInstructions}</p>
+            
+            <h2>{customerInfo.name}'s Order</h2>
+            <h3>Pizza Size: {customerInfo.pizzaSize}</h3>
+            <h3>Toppings: 
+                {customerInfo.pepperoni === true ? 'Pepperoni' : ''}   
+                {customerInfo.sausage === true ? 'Sausage' : ''}
+                {customerInfo.anchovies === true ? 'Anchovies' : ''}
+                {customerInfo.extraCheese === true ? 'Extra Cheese' : ''}  
+            </h3>
+            <h3>Special Instructions: {customerInfo.specialInstructions ?  customerInfo.specialInstructions : 'none' }</h3>
         </div>
     )
 }
