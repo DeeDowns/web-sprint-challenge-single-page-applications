@@ -119,7 +119,7 @@ function App() {
       {
         customers.map(customer => {
           return (
-            <Customer key={customer.id} info={customer} />
+            <Customer key={customer.id} customerInfo={customer} />
           )
         })
       }
