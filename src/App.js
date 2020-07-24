@@ -33,11 +33,62 @@ const initialDisabled = true
 function App() {
   const [customers, setCustomers] = useState(initialCustomers)
   const [formValues, setFormValues] = useState(initialFormValues)
-  const [formErros, setFormErrors] = useState(initialFormErrors)
+  const [formErrors, setFormErrors] = useState(initialFormErrors)
   const [disabled, setDisabled] = useState(initialDisabled)
   console.log(formValues)
 
+  const postNewCustomerOrder = newCustomer => {
+    axios.post('https://reqres.in/api/users', newCustomer)
+      .then( res => {
+        console.log(res.data)
+        setCustomers([ res.data, ...customers ])
+        setFormValues(initialFormValues)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 
+  const formChanges = e => {
+    e.persist();
+    e.target.type === 'checkbox' ? setFormValues({ ...formValues, [e.target.name]: e.target.checked }) : 
+      setFormValues({ ...formValues, [e.target.name]: e.target.value }) 
+    validateForm(e)
+  }
+
+  const validateForm = e => {
+    yup
+    .reach(formSchema, e.target.name)
+    .validate(
+      e.target.type === 'checkbox' ? e.target.checked : e.target.value
+    )
+    .then((valid) => {
+      setFormErrors({ ...formErrors, [e.target.name]: '' })
+    })
+    .catch((err) => {
+      setFormErrors({ ...formErrors, [e.target.name]: err.errors })
+    })
+  }
+
+  const submit = () => {
+    const newCustomer = {
+      name: formValues.name.trim(),
+      pizzaSize: formValues.pizzaSize.trim(),
+      pepperoni: formValues.pepperoni,
+      sausage: formValues.sausage,
+      anchovies: formValues.anchovies,
+      extraCheese: formValues.extraCheese,
+      specialInstructions: formValues.specialInstructions.trim(),
+    }
+    postNewCustomerOrder(newCustomer)
+  }
+
+  useEffect(() => {
+    formSchema.isValid(formValues)
+      .then(valid => {
+        setDisabled(!valid)
+      })
+  }, [formValues])
 
   return (
     <div>
@@ -45,13 +96,19 @@ function App() {
         <h1>Lambda Eats</h1>
         <nav>
           <Link to='/'>Home</Link>
-          {/* <Link to='/form'>Form</Link> */}
+          <Link to='/form'>Form</Link>
         </nav>
       </header>
 
       <Switch>
         <Route path='/form'>
-          <Form />
+          <Form 
+            formValues={formValues}
+            formChanges={formChanges}
+            formErrors={formErrors}
+            submit={submit}
+            disabled={disabled}
+          />
         </Route>
 
         <Route path='/'>
@@ -59,13 +116,13 @@ function App() {
         </Route>
       </Switch>
       
-      {/* {
+      {
         customers.map(customer => {
           return (
             <Customer key={customer.id} info={customer} />
           )
         })
-      } */}
+      }
     
     </div>
   );
